@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,16 +26,20 @@ public class MainActivity extends AppCompatActivity {
         checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                    if(isRooted()){
-                        et.setText("Rooted");
-                    } else {
-                        et.setText("Clean");
-                    }
+                String cap = "";
+                if(isRooted()){
+                    cap = "Rooted";
+                } else {
+                    cap = "Clean";
+                }
+
+                et.setText(cap);
                 }
         });
-
     }
+
     public boolean isRooted() {
+        Log.d("myapp", Log.getStackTraceString(new Exception()));
 
         // get from build info
         String buildTags = android.os.Build.TAGS;
@@ -55,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         // try executing commands
         return canExecuteCommand("/system/xbin/which su")
                 || canExecuteCommand("/system/bin/which su") || canExecuteCommand("which su");
+
     }
 
     // executes a command on the system
